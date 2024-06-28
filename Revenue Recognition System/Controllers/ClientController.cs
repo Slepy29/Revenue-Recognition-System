@@ -18,6 +18,10 @@ public class ClientController : ControllerBase
     [HttpPost("add-client")]
     public async Task<IActionResult> AddClient(AddClientDTO client)
     {
+        if (client.IsCompany && String.IsNullOrEmpty(client.KRS))
+            return BadRequest("No KRS");
+        if (!client.IsCompany && String.IsNullOrEmpty(client.PESEL))
+            return BadRequest("No PESEL");
         var addedClient = await _clientService.AddClient(client);
         return Ok(addedClient);
     }
