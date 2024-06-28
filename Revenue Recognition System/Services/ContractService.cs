@@ -11,8 +11,7 @@ public class ContractService : IContractService
     {
         _context = context;
     }
-
-    // Create Contract
+    
     public async Task<Contract> CreateContract(int clientId, int softwareId, int additionalYears)
     {
         var client = await _context.Clients.FindAsync(clientId);
@@ -37,12 +36,11 @@ public class ContractService : IContractService
             ClientId = clientId,
             SoftwareId = softwareId,
             StartDate = DateTime.UtcNow,
-            EndDate = DateTime.UtcNow.AddDays(30), // Initial period of 30 days for payment
-            IsSigned = false, // Initial state before payment is completed
-            Price = software.BasePrice + additionalYears * 1000, // Initial price calculation
+            EndDate = DateTime.UtcNow.AddDays(30),
+            IsSigned = false,
+            Price = software.BasePrice + additionalYears * 1000,
         };
-
-        // Apply discounts
+        
         var applicableDiscounts = _context.Discounts
             .Where(d => d.StartDate <= DateTime.UtcNow && d.EndDate >= DateTime.UtcNow)
             .ToList();
@@ -58,7 +56,6 @@ public class ContractService : IContractService
         return contract;
     }
 
-    // Issue Payment for Contract
     public async Task<Payment> IssuePayment(int contractId, decimal amount)
     {
         var contract = await _context.Contracts.FindAsync(contractId);
@@ -81,16 +78,15 @@ public class ContractService : IContractService
         var totalPayments = _context.Payments.Where(p => p.ContractId == contractId).Sum(p => p.Amount);
         if (totalPayments >= contract.Price)
         {
-            contract.IsSigned = true; // Mark the contract as signed
+            contract.IsSigned = true;
             contract.StartDate = DateTime.UtcNow;
-            contract.EndDate = DateTime.UtcNow.AddYears(1); // Set the actual contract duration after full payment
+            contract.EndDate = DateTime.UtcNow.AddYears(1);
             await _context.SaveChangesAsync();
         }
 
         return payment;
     }
-
-    // Refund payments if the contract is not paid within the timeframe
+    
     public async Task<bool> CheckAndRefundExpiredContracts()
     {
         var expiredContracts = _context.Contracts
@@ -102,7 +98,6 @@ public class ContractService : IContractService
             var payments = _context.Payments.Where(p => p.ContractId == contract.ContractId).ToList();
             foreach (var payment in payments)
             {
-                // Implement refund logic here, e.g., call payment gateway API to process refunds
                 _context.Payments.Remove(payment);
             }
 

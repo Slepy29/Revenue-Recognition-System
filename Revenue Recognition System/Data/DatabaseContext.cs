@@ -100,7 +100,7 @@ public class DatabaseContext : DbContext
             e.HasMany(c => c.Payments)
                 .WithOne(p => p.Client)
                 .HasForeignKey(p => p.ClientId)
-                .OnDelete(DeleteBehavior.Restrict); // Changed to Restrict to avoid multiple cascade paths
+                .OnDelete(DeleteBehavior.Restrict);
             e.HasMany(c => c.Contracts)
                 .WithOne(con => con.Client)
                 .HasForeignKey(con => con.ClientId);
@@ -171,12 +171,12 @@ public class DatabaseContext : DbContext
             e.HasOne(p => p.Contract)
                 .WithMany(c => c.Payments)
                 .HasForeignKey(p => p.ContractId)
-                .OnDelete(DeleteBehavior.Restrict); // Changed to Restrict to avoid multiple cascade paths
+                .OnDelete(DeleteBehavior.Restrict);
 
             e.HasOne(p => p.Client)
                 .WithMany(cli => cli.Payments)
                 .HasForeignKey(p => p.ClientId)
-                .OnDelete(DeleteBehavior.Restrict); // Changed to Restrict to avoid multiple cascade paths
+                .OnDelete(DeleteBehavior.Restrict);
         });
     }
 }

@@ -14,7 +14,6 @@ public class RevenueService : IRevenueService
         _currencyService = currencyService;
     }
     
-    // Calculate Current Revenue
     public async Task<decimal> CalculateCurrentRevenue(string currencyCode = "PLN", int? productId = null)
     {
         var payments = _context.Payments.AsQueryable();
@@ -34,8 +33,7 @@ public class RevenueService : IRevenueService
 
         return totalRevenue;
     }
-
-    // Calculate Expected Revenue
+    
     public async Task<decimal> CalculateExpectedRevenue(string currencyCode = "PLN", int? productId = null)
     {
         var signedContracts = _context.Contracts.AsQueryable().Where(c => c.IsSigned);
