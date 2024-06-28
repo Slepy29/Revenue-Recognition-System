@@ -87,9 +87,9 @@ public class DatabaseContext : DbContext
         {
             e.ToTable("Client");
             e.HasKey(c => c.ClientId);
-            e.Property(c => c.Name).IsRequired();
-            e.Property(c => c.Email).IsRequired();
-            e.Property(c => c.PhoneNumber).IsRequired();
+            e.Property(c => c.Name);
+            e.Property(c => c.Email);
+            e.Property(c => c.PhoneNumber);
             e.Property(c => c.IsCompany).IsRequired();
             e.Property(c => c.PESEL).HasMaxLength(11);
             e.Property(c => c.KRS).HasMaxLength(10);

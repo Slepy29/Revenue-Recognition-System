@@ -18,7 +18,6 @@ public class ClientController : ControllerBase
     [HttpPost("add-client")]
     public async Task<IActionResult> AddClient(AddClientDTO client)
     {
-        
         var addedClient = await _clientService.AddClient(client);
         return Ok(addedClient);
     }

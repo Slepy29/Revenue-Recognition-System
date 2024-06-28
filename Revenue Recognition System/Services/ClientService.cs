@@ -12,12 +12,6 @@ public class ClientService : IClientService
     {
         _context = context;
     }
-    
-    public async Task<Client?> GetClient(int clientId)
-    {
-        return await _context.Clients
-            .FirstOrDefaultAsync(e => e.ClientId == clientId);
-    }
 
     public async Task<Client> AddClient(AddClientDTO newClient)
     {
@@ -37,7 +31,7 @@ public class ClientService : IClientService
 
     public async Task<bool> DeleteClient(int clientId)
     {
-        var client = await GetClient(clientId);
+        var client = await _context.Clients.FindAsync(clientId);
         if (client == null)
         {
             return false;
