@@ -1,4 +1,5 @@
-﻿using Revenue_Recognition_System.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using Revenue_Recognition_System.Data;
 using Revenue_Recognition_System.Models;
 
 namespace Revenue_Recognition_System.Services;
@@ -14,23 +15,23 @@ public class ContractService : IContractService
     
     public async Task<Contract> CreateContract(int clientId, int softwareId, int additionalYears)
     {
-        var client = await _context.Clients.FindAsync(clientId);
+        var client = _context.Clients
+            .Include(c => c.Contracts)
+            .FirstOrDefault(c => c.ClientId == clientId);
         if (client == null)
         {
             throw new InvalidOperationException("Client not found.");
         }
-
-        if (client.Contracts.Any(c => c.SoftwareId == softwareId && c.EndDate >= DateTime.UtcNow))
+        
+        if (client.Contracts != null && client.Contracts.Any(c => c.SoftwareId == softwareId && c.EndDate >= DateTime.UtcNow))
         {
-            throw new InvalidOperationException("Client has an active subscription or contract for this product.");
+            throw new InvalidOperationException("Client has an active contract for this product.");
         }
-
         var software = await _context.Softwares.FindAsync(softwareId);
         if (software == null)
         {
             throw new InvalidOperationException("Software not found.");
         }
-
         var contract = new Contract
         {
             ClientId = clientId,

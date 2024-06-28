@@ -36,6 +36,11 @@ public class DatabaseContext : DbContext
                 .WithOne(s => s.Category)
                 .HasForeignKey(s => s.CategoryId)
                 .OnDelete(DeleteBehavior.Cascade);
+            
+            e.HasData(
+                new Category { CategoryId = 1, Name = "Business" },
+                new Category { CategoryId = 2, Name = "Education" }
+            );
         });
 
         // Configure Version entity
@@ -80,6 +85,11 @@ public class DatabaseContext : DbContext
                     j => j.HasOne<Discount>().WithMany().HasForeignKey("DiscountId"),
                     j => j.HasOne<Software>().WithMany().HasForeignKey("SoftwareId")
                 );
+            
+            e.HasData(
+                new Software { SoftwareId = 1, Name = "Business Suite", Description = "A suite of business tools", CurrentVersionId = 1, CategoryId = 1 },
+                new Software { SoftwareId = 2, Name = "Educational Platform", Description = "An online education platform", CurrentVersionId = 2, CategoryId = 2 }
+            );
         });
 
         // Configure Client entity
@@ -104,6 +114,11 @@ public class DatabaseContext : DbContext
             e.HasMany(c => c.Contracts)
                 .WithOne(con => con.Client)
                 .HasForeignKey(con => con.ClientId);
+            
+            e.HasData(
+                new Client { ClientId = 1, Name = "John Doe", Email = "john.doe@example.com", PhoneNumber = "123456789", IsCompany = false, PESEL = "12345678900"},
+                new Client { ClientId = 2, Name = "Tech Corp", Email = "contact@techcorp.com", PhoneNumber = "987654321", IsCompany = true, KRS = "1234567890" }
+            );
         });
 
         // Configure Transaction entity
@@ -131,6 +146,10 @@ public class DatabaseContext : DbContext
             e.Property(d => d.Percentage).IsRequired();
             e.Property(d => d.StartDate).IsRequired();
             e.Property(d => d.EndDate).IsRequired();
+            
+            e.HasData(
+                new Discount { DiscountId = 1, Name = "New Year Sale", Description = "10% off", Percentage = 10, StartDate = new DateTime(2024, 1, 1), EndDate = new DateTime(2024, 1, 31) }
+            );
         });
 
         // Configure Contract entity
@@ -158,6 +177,10 @@ public class DatabaseContext : DbContext
                 .WithMany(cli => cli.Contracts)
                 .HasForeignKey(c => c.ClientId)
                 .OnDelete(DeleteBehavior.Cascade);
+            
+            e.HasData(
+                new Contract { ContractId = 1, StartDate = new DateTime(2024, 6, 1), EndDate = new DateTime(2024, 6, 30), Price = 10000, IsSigned = false, AdditionalYearsOfSupport = 1, SoftwareId = 1, ClientId = 1, DiscountId = 1 }
+            );
         });
 
         // Configure Payment entity
@@ -177,6 +200,10 @@ public class DatabaseContext : DbContext
                 .WithMany(cli => cli.Payments)
                 .HasForeignKey(p => p.ClientId)
                 .OnDelete(DeleteBehavior.Restrict);
+            
+            e.HasData(
+                new Payment { PaymentId = 1, Amount = 5000, PaymentDate = new DateTime(2024, 6, 15), ContractId = 1, ClientId = 1 }
+            );
         });
     }
 }

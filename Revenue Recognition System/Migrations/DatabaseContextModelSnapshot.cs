@@ -37,6 +37,18 @@ namespace Revenue_Recognition_System.Migrations
                     b.HasKey("CategoryId");
 
                     b.ToTable("Category", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            CategoryId = 1,
+                            Name = "Business"
+                        },
+                        new
+                        {
+                            CategoryId = 2,
+                            Name = "Education"
+                        });
                 });
 
             modelBuilder.Entity("Revenue_Recognition_System.Models.Client", b =>
@@ -70,6 +82,25 @@ namespace Revenue_Recognition_System.Migrations
                     b.HasKey("ClientId");
 
                     b.ToTable("Client", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            ClientId = 1,
+                            Email = "john.doe@example.com",
+                            IsCompany = false,
+                            Name = "John Doe",
+                            PhoneNumber = "123456789"
+                        },
+                        new
+                        {
+                            ClientId = 2,
+                            Email = "contact@techcorp.com",
+                            IsCompany = true,
+                            KRS = "1234567890",
+                            Name = "Tech Corp",
+                            PhoneNumber = "987654321"
+                        });
                 });
 
             modelBuilder.Entity("Revenue_Recognition_System.Models.Contract", b =>
@@ -113,6 +144,20 @@ namespace Revenue_Recognition_System.Migrations
                     b.HasIndex("SoftwareId");
 
                     b.ToTable("Contract", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            ContractId = 1,
+                            AdditionalYearsOfSupport = 1,
+                            ClientId = 1,
+                            DiscountId = 1,
+                            EndDate = new DateTime(2024, 6, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsSigned = false,
+                            Price = 10000m,
+                            SoftwareId = 1,
+                            StartDate = new DateTime(2024, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        });
                 });
 
             modelBuilder.Entity("Revenue_Recognition_System.Models.Discount", b =>
@@ -143,6 +188,17 @@ namespace Revenue_Recognition_System.Migrations
                     b.HasKey("DiscountId");
 
                     b.ToTable("Discount", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            DiscountId = 1,
+                            Description = "10% off",
+                            EndDate = new DateTime(2024, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "New Year Sale",
+                            Percentage = 10.0,
+                            StartDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        });
                 });
 
             modelBuilder.Entity("Revenue_Recognition_System.Models.Payment", b =>
@@ -172,6 +228,16 @@ namespace Revenue_Recognition_System.Migrations
                     b.HasIndex("ContractId");
 
                     b.ToTable("Payment", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            PaymentId = 1,
+                            Amount = 5000m,
+                            ClientId = 1,
+                            ContractId = 1,
+                            PaymentDate = new DateTime(2024, 6, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        });
                 });
 
             modelBuilder.Entity("Revenue_Recognition_System.Models.Software", b =>
@@ -206,6 +272,26 @@ namespace Revenue_Recognition_System.Migrations
                     b.HasIndex("CurrentVersionId");
 
                     b.ToTable("Software", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            SoftwareId = 1,
+                            BasePrice = 0m,
+                            CategoryId = 1,
+                            CurrentVersionId = 1,
+                            Description = "A suite of business tools",
+                            Name = "Business Suite"
+                        },
+                        new
+                        {
+                            SoftwareId = 2,
+                            BasePrice = 0m,
+                            CategoryId = 2,
+                            CurrentVersionId = 2,
+                            Description = "An online education platform",
+                            Name = "Educational Platform"
+                        });
                 });
 
             modelBuilder.Entity("Revenue_Recognition_System.Models.SoftwareVersion", b =>

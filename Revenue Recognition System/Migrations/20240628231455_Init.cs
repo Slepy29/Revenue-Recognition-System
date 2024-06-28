@@ -229,6 +229,29 @@ namespace Revenue_Recognition_System.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Category",
+                columns: new[] { "CategoryId", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Business" },
+                    { 2, "Education" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Client",
+                columns: new[] { "ClientId", "Email", "IsCompany", "KRS", "Name", "PESEL", "PhoneNumber" },
+                values: new object[,]
+                {
+                    { 1, "john.doe@example.com", false, null, "John Doe", null, "123456789" },
+                    { 2, "contact@techcorp.com", true, "1234567890", "Tech Corp", null, "987654321" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Discount",
+                columns: new[] { "DiscountId", "Description", "EndDate", "Name", "Percentage", "StartDate" },
+                values: new object[] { 1, "10% off", new DateTime(2024, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), "New Year Sale", 10.0, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.InsertData(
                 table: "SoftwareVersion",
                 columns: new[] { "VersionId", "ReleaseDate", "VersionNumber" },
                 values: new object[,]
@@ -236,6 +259,25 @@ namespace Revenue_Recognition_System.Migrations
                     { 1, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "1.0" },
                     { 2, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "2.0" }
                 });
+
+            migrationBuilder.InsertData(
+                table: "Software",
+                columns: new[] { "SoftwareId", "BasePrice", "CategoryId", "CurrentVersionId", "Description", "Name" },
+                values: new object[,]
+                {
+                    { 1, 0m, 1, 1, "A suite of business tools", "Business Suite" },
+                    { 2, 0m, 2, 2, "An online education platform", "Educational Platform" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Contract",
+                columns: new[] { "ContractId", "AdditionalYearsOfSupport", "ClientId", "DiscountId", "EndDate", "IsSigned", "Price", "SoftwareId", "StartDate" },
+                values: new object[] { 1, 1, 1, 1, new DateTime(2024, 6, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), false, 10000m, 1, new DateTime(2024, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.InsertData(
+                table: "Payment",
+                columns: new[] { "PaymentId", "Amount", "ClientId", "ContractId", "PaymentDate" },
+                values: new object[] { 1, 5000m, 1, 1, new DateTime(2024, 6, 15, 0, 0, 0, 0, DateTimeKind.Unspecified) });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Contract_ClientId",
