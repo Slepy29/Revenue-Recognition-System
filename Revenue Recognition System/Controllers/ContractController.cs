@@ -7,9 +7,9 @@ namespace Revenue_Recognition_System.Controllers;
 [Route("api/[controller]")]
 public class ContractController : ControllerBase
 {
-    private readonly ContractService _contractService;
+    private readonly IContractService _contractService;
 
-    public ContractController(ContractService contractService)
+    public ContractController(IContractService contractService)
     {
         _contractService = contractService;
     }

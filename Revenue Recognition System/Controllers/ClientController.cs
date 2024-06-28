@@ -1,21 +1,24 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Revenue_Recognition_System.Models;
+using Revenue_Recognition_System.DTOs;
 using Revenue_Recognition_System.Services;
 
 namespace Revenue_Recognition_System.Controllers;
 
+[ApiController]
+[Route("api/[controller]")]
 public class ClientController : ControllerBase
 {
-    private readonly ClientService _clientService;
+    private readonly IClientService _clientService;
 
-    public ClientController(ClientService clientService)
+    public ClientController(IClientService clientService)
     {
         _clientService = clientService;
     }
     
     [HttpPost("add-client")]
-    public async Task<IActionResult> AddClient(Client client)
+    public async Task<IActionResult> AddClient(AddClientDTO client)
     {
+        
         var addedClient = await _clientService.AddClient(client);
         return Ok(addedClient);
     }
@@ -32,7 +35,7 @@ public class ClientController : ControllerBase
     }
     
     [HttpPut("update-client")]
-    public async Task<IActionResult> UpdateClient(Client client)
+    public async Task<IActionResult> UpdateClient(UpdateClientDTO client)
     {
         var updatedClient = await _clientService.UpdateClient(client);
         if (updatedClient == null)

@@ -1,11 +1,12 @@
-﻿using Revenue_Recognition_System.Models;
+﻿using Revenue_Recognition_System.DTOs;
+using Revenue_Recognition_System.Models;
 
 namespace Revenue_Recognition_System.Services;
 
 public interface IClientService
 {
     Task<Client> GetClient(int clientId);
-    Task<Client> AddClient(Client client);
+    Task<Client> AddClient(AddClientDTO newClient);
     Task<bool> DeleteClient(int clientId);
-    Task<Client> UpdateClient(Client updatedClient);
+    Task<Client> UpdateClient(UpdateClientDTO updatedClient);
 }

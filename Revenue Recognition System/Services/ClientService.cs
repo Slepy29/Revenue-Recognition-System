@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Revenue_Recognition_System.Data;
+using Revenue_Recognition_System.DTOs;
 using Revenue_Recognition_System.Models;
 
 namespace Revenue_Recognition_System.Services;
@@ -18,8 +19,17 @@ public class ClientService : IClientService
             .FirstOrDefaultAsync(e => e.ClientId == clientId);
     }
 
-    public async Task<Client> AddClient(Client client)
+    public async Task<Client> AddClient(AddClientDTO newClient)
     {
+        Client client = new Client()
+        {
+            Email = newClient.Email,
+            PhoneNumber = newClient.PhoneNumber,
+            KRS = newClient.KRS,
+            PESEL = newClient.PESEL,
+            IsCompany = newClient.IsCompany,
+            Name = newClient.Name
+        };
         _context.Clients.Add(client);
         await _context.SaveChangesAsync();
         return client;
@@ -47,7 +57,7 @@ public class ClientService : IClientService
         return false;
     }
 
-    public async Task<Client> UpdateClient(Client updatedClient)
+    public async Task<Client> UpdateClient(UpdateClientDTO updatedClient)
     {
         var existingClient = await _context.Clients.FindAsync(updatedClient.ClientId);
         if (existingClient == null)
